@@ -17,8 +17,8 @@
 	<div id="barra">
 		<center> 
 			<img src="imagens/Captura de tela 2023-09-21 174602.png" width="300">
-			<br> <br> <a href="" class="botao-links">Area
-				Prefeitura</a> <a href="tela-login.jsp" class="botao-links">Area Aluno</a>
+			<br> <br> <a href = "tela-login-prefeitura.jsp" class="botao-links">Area
+				Prefeitura</a> <a href = "tela-login.jsp" class="botao-links">Area Aluno</a>
 		</center> 
 	</div>
 

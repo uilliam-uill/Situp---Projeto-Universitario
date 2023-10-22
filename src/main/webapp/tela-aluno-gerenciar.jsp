@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SITUP - Aluno</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="css/tela-aluno-gerenciar.css">
+    <link rel="stylesheet" type="text/css" href="style/tela-aluno-gerenciar.css">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
         </center>
     </div>
 
-    <h1 style="font-size:50px;"> Olá Uilliam, tudo bem? </h1>
+    <h1 style="font-size:50px;"> Ola Uilliam, tudo bem? </h1>
 
     <div id="barra-navegacao">
         <div id="div-links">

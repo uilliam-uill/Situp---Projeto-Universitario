@@ -29,10 +29,10 @@
 					<label class="form-label" style="color: black;">SENHA</label> <br> 
 					<input class = "form-control" type="password" placeholder="Sua senha" name="senha"> <br> <br>
 					<input class="btn btn-primary mb-3" type="submit" value="Entrar"> <br>
-					<br> <a href="cadastro-aluno.jsp">Não tem conta? Cadastra-se</a>
+					<br> <a href="cadastro-prefeitura.jsp">Não tem conta? Cadastra-se</a>
 				</form>
 			</td>
-			<td><img src="imagens/19197947.jpg" width="470" style = "margin-left: 20%"></td>
+			<td><img src="imagens/12085288_20944112.jpg" width="470" style = "margin-left: 20%"></td>
 		</tr>
 	</table>
 </body>
