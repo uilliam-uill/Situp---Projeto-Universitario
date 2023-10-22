@@ -34,26 +34,26 @@
 				<%@ page import="java.sql.Connection"%>
 				<%@ page import="java.sql.DriverManager"%> <%@ page
 					import="java.sql.SQLException"%> <%@ page
-					import="javacom.Aluno"%> 
+					import="javacom.Prefeitura"%> 
 
 				<form id="form-login" method = 	"post">
-					<label class="form-label" style="color: black;">NOME</label> <br>
-					<input class="form-control" type="text" id="nome" name="nomealuno" placeholder="Seu Nome">
+					<label class="form-label" style="color: black;">CIDADE</label> <br>
+					<input class="form-control" type="text" id="nome" name="cidade" placeholder="Sua cidade">
 					<br> <br> 
-					<label class="form-label" style="color: black;">CPF </label>
+					<label class="form-label" style="color: black;">CNPJ </label>
 					<br> 
-					<input class="form-control" type="text" id="cpf" placeholder="***.***.***-**" name="cpfaluno">
+					<input class="form-control" type="text" id="cnpj" placeholder="**.***.***/0001-**" name="cnpj">
 					<br> <br> 
 					<label class="form-label" style="color: black;">E-MAIL</label> <br>
-					<input class="form-control" type="email" id="email" placeholder="Seu E-mail" name="emailaluno">
+					<input class="form-control" type="email" id="email" placeholder="Seu E-mail" name="emailprefeitura">
 					<br> <br> 
 					<label class="form-label" style="color: black;" id="senha">SENHA</label>
 					<br> 
-					<input class="form-control" type="password" placeholder="Sua senha" id="confirmesenha" name="senhaaluno">
+					<input class="form-control" type="password" placeholder="Sua senha" id="confirmesenha" name="senhaprefeitura">
 					<br> <br> 
 					<label class "form-label" style="color: black;">CONFIRME SUA SENHA</label>
 					<br> 
-					<input class="form-control" type="password" placeholder="Sua senha" name="confirmesenhaaluno"> 
+					<input class="form-control" type="password" placeholder="Sua senha" name="confirmesenhaprefeitura"> 
 					<br> 
 					<button class="btn btn-primary mb-3" onclick="enviarFormulario()">
 						Entrar
@@ -61,14 +61,24 @@
 				</form>
 
 				<%
-					Aluno alunoCadastro = new Aluno();
-					alunoCadastro.setNome(request.getParameter("nomealuno"));
-					alunoCadastro.setCpf(request.getParameter("cpfaluno"));
-					alunoCadastro.setEmail(request.getParameter("emailaluno"));
-					
-					if (request.getParameter("senhaaluno") != null && request.getParameter("confirmesenhaaluno") != null) {
-						if (request.getParameter("senhaaluno").equals(request.getParameter("confirmesenhaaluno"))){
-							alunoCadastro.setSenha(request.getParameter("senhaaluno"));
+				Prefeitura prefeitura = Prefeitura.getInstance();
+				prefeitura.setCnpj(request.getParameter("cnpj"));
+				prefeitura.setCidade(request.getParameter("cidade"));
+				prefeitura.setEmail(request.getParameter("emailprefeitura"));
+				
+				String senha1 = request.getParameter("senhaprefeitura");
+				String senha2 = request.getParameter("confirmesenhaprefeitura");
+				String cidade = request.getParameter("cidade");
+				String cnpj = request.getParameter("cnpj");
+				String email = request.getParameter("emailprefeitura");
+
+				if (senha1 != null && senha1.length() > 0 &&
+				    senha2 != null && senha2.length() > 0 &&
+				    cidade != null && cidade.length() > 0 &&
+				    cnpj != null && cnpj.length() > 0 &&
+				    email != null && email.length() > 0) {
+						if (request.getParameter("senhaprefeitura").equals(request.getParameter("confirmesenhaprefeitura"))){
+							prefeitura.setSenha(request.getParameter("senhaprefeitura"));
 
 							Class.forName("com.mysql.jdbc.Driver");
 							
@@ -78,11 +88,12 @@
 								String senha = "5988";
 								Connection conexao = DriverManager.getConnection(url, usuario, senha);
 
-								PreparedStatement ps = conexao.prepareStatement("INSERT INTO aluno (nome, cpf, email, senha) VALUES (?,?,?,?)");
-								ps.setString(1, alunoCadastro.getNome());
-								ps.setString(2, alunoCadastro.getCpf());
-								ps.setString(3, alunoCadastro.getEmail());
-								ps.setString(4, alunoCadastro.getSenha());
+								PreparedStatement ps = conexao.
+										prepareStatement("INSERT INTO prefeitura (nome_cidade, cnpj, email, senha) VALUES (?,?,?,?)");
+								ps.setString(1, prefeitura.getCidade());
+								ps.setString(2, prefeitura.getCnpj());
+								ps.setString(3, prefeitura.getEmail());
+								ps.setString(4, prefeitura.getSenha());
 								ps.execute();
 							} catch (SQLException e) {
 								// Trate a exceção de SQLException aqui
@@ -93,7 +104,7 @@
 				%>
 			</td>
 			<td>
-				<img src="imagens/4944411.jpg" width="480" style="margin-left: 10%">
+				<img src="imagens/12085316_20944142.jpg" width="480" style="margin-left: 10%">
 			</td>
 		</tr>
 	</table>

@@ -40,12 +40,17 @@
 	<%@ page import="java.sql.Connection"%>
 				<%@ page import="java.sql.DriverManager"%> 
 				<%@ page import="java.sql.SQLException"%>
-				<%@ page import="javacom.Aluno"%> 
+				<%@ page import="javacom.Prefeitura"%> 
 				<%@page import="java.sql.PreparedStatement"%>
 <%
-	Aluno aluno = new Aluno();
-	aluno.setEmail(request.getParameter("login"));
-	aluno.setSenha(request.getParameter("senha"));
+	String loginV = request.getParameter("login");
+	String senhaV = request.getParameter("senha");
+	
+	if(loginV != null && senhaV != null && loginV.length() > 0 && senhaV.length() > 0){
+
+	Prefeitura prefeitura = Prefeitura.getInstance();
+		prefeitura.setEmail(request.getParameter("login"));
+		prefeitura.setSenha(request.getParameter("senha"));
 	
 	Class.forName("com.mysql.jdbc.Driver");
 	 
@@ -56,15 +61,16 @@
 
 		Connection conexao = DriverManager.getConnection(url, usuario, senha);
 
-		PreparedStatement ps = conexao.prepareStatement("SELECT * FROM aluno WHERE email = ? AND senha = ?");
-		ps.setString(1, aluno.getEmail());
-		ps.setString(2, aluno.getSenha());
+		PreparedStatement ps = conexao.prepareStatement("SELECT * FROM prefeitura WHERE email = ? AND senha = ?");
+		ps.setString(1, prefeitura.getEmail());
+		ps.setString(2, prefeitura.getSenha());
 		ps.execute();
 		
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){%>
-			  <script> window.location.href = "tela-aluno-gerenciar.jsp"; </script>
-		<%} else{ %>
+			  <script> window.location.href = "tela-prefeitura.jsp"; </script>
+		<%	  prefeitura.setId_prefeitura(rs.getInt("id"));
+		} else{ %>
 			<script>alert("USUARIO E/OU SENHA INCORRETOS") </script>
 		<%}
 		conexao.close();
@@ -75,7 +81,8 @@
 		// Trate a exceção de SQLException aqui
 		e.printStackTrace();
 	}
-	;
+	}
+	
 %>
 
 </html>
