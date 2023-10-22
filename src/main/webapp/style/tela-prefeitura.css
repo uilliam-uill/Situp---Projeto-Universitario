@@ -1,0 +1,103 @@
+
+#barra-botoes {
+    background-color: gray;
+}
+
+.botoes {
+    padding: 10px;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.botoes:hover {
+    border: 1px solid white;
+    background-color: yellow;
+}
+
+#tabela-onibus {
+    background-color: rgb(220, 214, 214, 0.5);
+}
+
+.inputs-text {
+    padding: 5px;
+    border-radius: 10px;
+    transition: width 0.3s;
+    width: 350px;
+}
+
+.input-text:focus {
+    width: 300px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.center-td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.taller-td {
+    height: 200px;
+}
+
+#botao-enviar {
+    padding: 10px 50px;
+    border-radius: 10px;
+    background-color: yellow;
+}
+
+#botao-enviar:hover {
+    background-color: white;
+    transform: scale(1.1);
+}
+
+.expandindo-qrcode {
+    transition: width 0.6s, height 0.6s;
+    width: 400px;
+    height: 30px;
+    white-space: nowrap;
+}
+
+.expandindo-qrcode .text {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.expandindo-qrcode:hover {
+    width: 700px;
+    height: 150px;
+    background-color: yellow;
+    border-radius: 10px;
+}
+
+.expandindo-qrcode:hover .text {
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.expli {
+    color: rgb(113, 108, 108);
+}
+
+#barra {
+    background-color: rgb(255, 232, 26);
+    padding: 3%;
+}
+
+.label-tamanho{
+	font-size: 12px	
+	}
+
+#form{
+	margin-left: 25%
+	}
+
+    #cadastro{
+        text-align: center;
+        margin-right: 18%;
+    }

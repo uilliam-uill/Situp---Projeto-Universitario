@@ -1,0 +1,111 @@
+body{
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+}
+
+#barra{
+    background-color: rgb(255,232,26);
+    margin: 15 15 15 15;
+    padding: 3%;
+}
+
+#titulo-principal{
+    color: rgb(163, 148, 15);
+    text-align: center;
+}
+
+#container{
+    text-align: center;
+}
+
+#container > div{
+    display: inline-block;
+}
+
+.apre-um{
+    background-color: rgb(217,217,217);
+    text-align: center;
+    display: inline-block;
+    vertical-align: top; 
+    width: 20%; 
+    height: 350px;
+    margin: 5%; 
+    text-align: left; 
+    border: 1px solid black;
+    border-radius: 30px;    
+}
+
+.button-saibamais{
+    color: black;
+    background-color: yellow;
+    padding: 5% 8% 5% 8%;
+    border-radius: 15px;
+}
+
+.button-saibamais:hover{
+    background-color: white;
+    color: black;
+    transform: scale(1.1);
+}
+
+.texto-index{
+ /*   margin-top: 2%;*/
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+#titulo-p-um{
+    margin-top: 5%;
+}
+
+#titulo-p-dois{
+    margin-top: 5%;
+}
+
+#titulo-p-tres{
+    margin-top: 5%;
+}    
+
+#tex-square-two{
+    margin-top: auto 10px;
+}
+
+#botao-um{
+    margin-top: 8%; 
+}
+
+#botao-dois{
+    /* margin-top: 4%; */
+}
+
+#botao-tres{
+    /* margin-top: 0.5%; */
+}
+
+#titulo{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#inicio{
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: yellow;
+    margin-right: 70%;
+    margin-left: 10%;
+    padding: 1%;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.botao-links{
+    color: white;
+    margin-right: 2%;
+    text-decoration: none;
+    padding: 0.5%;
+}
+
+.botao-links:hover{
+    background-color: white;
+    color: rgb(255,232,26);
+}
