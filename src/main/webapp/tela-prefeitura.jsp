@@ -10,6 +10,7 @@
 	<%@ page import="java.sql.DriverManager"%> 
 	<%@ page import="java.sql.SQLException"%> 
 	<%@ page import="javacom.Prefeitura"%> 
+	<%@ page import="javacom.Onibus"%> 
 	<%@page import="java.sql.PreparedStatement"%>
 	<%@page import="java.sql.ResultSet"%>
 	
@@ -34,7 +35,7 @@
 
 		 conexao = DriverManager.getConnection(url, usuario, senha);
 
-		PreparedStatement ps = conexao.prepareStatement("SELECT * FROM prefeitura WHERE id = ?");
+		PreparedStatement ps = conexao.prepareStatement("SELECT nome_cidade FROM prefeitura WHERE id = ?");
 		ps.setInt(1, prefeitura.getId_prefeitura());
 		ps.execute();
 		
@@ -42,11 +43,7 @@
 		
 		if(rs.next()){%>
 		<%nomeCidade = rs.getString("nome_cidade");
-		} 
-		conexao.close();
-		ps.close();
-		rs.close();
-		
+		} 		
 	} catch (SQLException e) {
 		// Trate a exceção de SQLException aqui
 		e.printStackTrace();
@@ -62,32 +59,35 @@
 		</div>
 		<br> <br> <br>
 		<div id="tabela-onibus">
-			<table border=1 style="margin-left: 40%; font-family: Arial">
+			<table border=1 class = "table table-bordered" style="margin-left: 40%; font-family: Arial">
 				<tr>
 					<th style="width:70px">Onibus</th>
 					<th style="width:200px">Cidade
-					<th>
 				</tr>
-
-				<tr>
-				
-					<td>
-						<p> UDHG254</p>
-					</td>
-
-					<td>
-						<p> Santo Antonio de Jesus</p>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<p> AHJS013</p>
-					</td>
-					<td>
-						<p> Cruz Das Almas</p>
-					</td>
-				</tr>
+		
+				<%	
+		Onibus gestaoOnibus = new Onibus();
+	
+		try{
+				PreparedStatement selectOnibus= conexao.prepareStatement("SELECT placa, cidade FROM onibus WHERE id_prefeitura = ?");
+				selectOnibus.setInt(1, prefeitura.getId_prefeitura());
+				selectOnibus.execute();
+		
+				ResultSet rsOnibus = selectOnibus.executeQuery();
+			
+				while(rsOnibus.next()){
+					gestaoOnibus.setCidade(rsOnibus.getString("cidade"));
+					gestaoOnibus.setPlaca(rsOnibus.getString("placa")); %>
+					<tr>
+						<td> <p> <%=gestaoOnibus.getPlaca()%> </p> </td>
+						<td> <p> <%=gestaoOnibus.getCidade()%> </p> </td>
+					</tr>
+			<%	}
+			}catch (SQLException e) {
+			// Trate a exceção de SQLException aqui
+					e.printStackTrace();
+				}   
+				%>						
 			</table>
 		</div>
 
@@ -99,6 +99,7 @@
 </div>
 		<div class = "d-flex justify-content-center">
 			<form method="post">
+			<div class="mb-3">
 				<div id="form" class="label-tamanho"><label> Cidade destino do transporte: </label> <br>
 					<input type="text" class="inputs-text" name="cidade_onibus"> <br> <br>
 
@@ -187,50 +188,66 @@
 
 						<br><br><br>
 
-						<input type="button" id="botao-enviar" value="Salvar">
+						<input type="submit" id="botao-enviar" value="Salvar">
+					
+					</div>
 					</form>
 					</div>
 		</div>
 </div>
 	
 	<%
-	String cidadeOnibus = request.getParameter("cidade_onibus");
-	String motorista = request.getParameter("motorista");
-	String placa = request.getParameter("placa");
-	String vagas = request.getParameter("vagas");
-	String horario = request.getParameter("horario");
+	Onibus onibus = new Onibus();
+
 	int vagasInt = 0; 
-	String gestaoVagasString = request.getParameter("gestao_vagas");
-	boolean gestaoVagas= "on".equals(gestaoVagasString);
+	String vagas = request.getParameter("vagas");
 	
-	String qrCodeString = request.getParameter("qrcode");
-	boolean qrCode= "on".equals(qrCodeString);
-	
-	if (cidadeOnibus != null && cidadeOnibus.length() > 0 &&
-		    motorista != null && motorista.length() > 0 &&
-		    placa != null && placa.length() > 0 &&
-		    vagas != null && vagas.length() > 0 &&
-		    horario != null && horario.length() > 0){
-			vagasInt  = Integer.parseInt(vagas);
-		
+		if (request.getParameter("cidade_onibus") != null && request.getParameter("cidade_onibus").length() > 0 &&
+				request.getParameter("motorista") != null && request.getParameter("motorista").length() > 0 &&
+				request.getParameter("vagas") != null && request.getParameter("vagas").length() > 0 &&
+				request.getParameter("placa") != null && request.getParameter("placa").length() > 0 &&
+				request.getParameter("horario") != null && request.getParameter("horario").length() > 0){
+					vagasInt  = Integer.parseInt(vagas);
+					
+					String qrCodeString = request.getParameter("qrcode");
+					boolean qrCode= "on".equals(qrCodeString);
+					
+					String gestaoVagasString = request.getParameter("gestao_vagas");
+					boolean bgestaoVagas= "on".equals(gestaoVagasString);
+
+					onibus.setHorario(request.getParameter("horario"));
+					onibus.setVagas(vagasInt);
+					onibus.setMotorista(request.getParameter("motorista"));
+					onibus.setGestaoQrcode(qrCode);
+					onibus.setGestaoVagas(bgestaoVagas);
+					onibus.setId_prefeitura(prefeitura.getId_prefeitura());
+					onibus.setPlaca(request.getParameter("placa"));
+					onibus.setCidade(request.getParameter("cidade_onibus"));
 	try{
 		PreparedStatement onibusSt = conexao.
 				prepareStatement("INSERT INTO onibus (id_prefeitura, cidade, placa, motorista, numero_de_vagas, " +
 						"horario, qr_code, verificar_vagas) VALUES (?,?,?,?,?,?,?,?)");
-		onibusSt.setInt(1, prefeitura.getId_prefeitura());
-		onibusSt.setString(2, cidadeOnibus);
-		onibusSt.setString(3, placa);
-		onibusSt.setString(4, motorista);
-		onibusSt.setInt(5, vagasInt);
-		onibusSt.setString(6, horario);
-		onibusSt.setBoolean(7, qrCode);
-		onibusSt.setBoolean(8, gestaoVagas);
+		onibusSt.setInt(1, onibus.getId_prefeitura());
+		onibusSt.setString(2, onibus.getCidade());
+		onibusSt.setString(3, onibus.getPlaca());
+		onibusSt.setString(4, onibus.getMotorista());
+		onibusSt.setInt(5, onibus.getVagas());
+		onibusSt.setString(6, onibus.getHorario());
+		onibusSt.setBoolean(7, onibus.isGestaoQrcode());
+		onibusSt.setBoolean(8, onibus.isGestaoVagas());
 		onibusSt.execute();
 		
+		onibusSt.close();
+		
+		response.sendRedirect("tela-prefeitura.jsp");
 	}catch (SQLException e) {
 		// Trate a exceção de SQLException aqui
 		e.printStackTrace();
-	} }
+	}
+	
+	}
+	
+	conexao.close();
 	%>
 
 	<script type="text/javascript">
