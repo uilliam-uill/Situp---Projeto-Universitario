@@ -37,13 +37,13 @@
 	</table>
 </body>
 
-	<%@ page import="java.sql.Connection"%>
+				<%@ page import="java.sql.Connection"%>
 				<%@ page import="java.sql.DriverManager"%> 
 				<%@ page import="java.sql.SQLException"%>
 				<%@ page import="javacom.Aluno"%> 
 				<%@page import="java.sql.PreparedStatement"%>
 <%
-	Aluno aluno = new Aluno();
+	Aluno aluno = Aluno.getInstance();
 	aluno.setEmail(request.getParameter("login"));
 	aluno.setSenha(request.getParameter("senha"));
 	
@@ -62,7 +62,8 @@
 		ps.execute();
 		
 		ResultSet rs = ps.executeQuery();
-		if(rs.next()){%>
+		if(rs.next()){
+			aluno.setId_aluno(rs.getInt("id"));%>
 			  <script> window.location.href = "tela-aluno-gerenciar.jsp"; </script>
 		<%} else{ %>
 			<script>alert("USUARIO E/OU SENHA INCORRETOS") </script>

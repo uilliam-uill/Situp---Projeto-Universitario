@@ -62,7 +62,7 @@
 			<table border=1 class = "table table-bordered" style="margin-left: 40%; font-family: Arial">
 				<tr>
 					<th style="width:70px">Onibus</th>
-					<th style="width:200px">Cidade
+					<th style="width:200px">Cidade</th>                        
 				</tr>
 		
 				<%	
@@ -97,10 +97,11 @@
 				<h1 style=" margin-left: 20%;color: rgb(163, 148, 15); font-family: 'Bai Jamjuree', sans-serif;">
 					CADASTRO DE ONIBUS </h1>
 </div>
-		<div class = "d-flex justify-content-center">
-			<form method="post">
-			<div class="mb-3">
-				<div id="form" class="label-tamanho"><label> Cidade destino do transporte: </label> <br>
+		<div class="d-flex justify-content-center">
+            <form method="post">
+                <div class="mb-3">
+                    <div id="form" class="label-tamanho">
+					<label> Cidade destino do transporte: </label> <br>
 					<input type="text" class="inputs-text" name="cidade_onibus"> <br> <br>
 
 					<label class="label-tamanho"> Motorista:</label> <br>
@@ -194,7 +195,6 @@
 					</form>
 					</div>
 		</div>
-</div>
 	
 	<%
 	Onibus onibus = new Onibus();
