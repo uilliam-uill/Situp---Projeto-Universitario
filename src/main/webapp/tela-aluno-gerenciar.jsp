@@ -2,6 +2,7 @@
 <%@ page import="java.sql.DriverManager"%>
 <%@ page import="java.sql.SQLException"%>
 <%@ page import="javacom.Aluno"%>
+<%@ page import="javacom.Onibus"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <!DOCTYPE html>
@@ -29,8 +30,6 @@
 	Aluno aluno = Aluno.getInstance();
 	Class.forName("com.mysql.jdbc.Driver");
 	Connection conexao = null;
-	String nomeAluno = "";
-
 	try {
 		String url = "jdbc:mysql://localhost:3306/situp";
 		String usuario = "root";
@@ -45,7 +44,7 @@
 		ResultSet rs = ps.executeQuery();
 
 		if (rs.next()) {
-			nomeAluno = rs.getString("nome");
+			aluno.setNome(rs.getString("nome"));
 		}
 	} catch (SQLException e) {
 		// Trate a exceção de SQLException aqui
@@ -55,7 +54,7 @@
 
 	<h1 style="font-size: 50px;">
 		Olá
-		<%=nomeAluno%></h1>
+		<%=aluno.getNome()%></h1>
 
 	<div id="barra-navegacao">
 		<div id="div-links">
@@ -65,14 +64,48 @@
 		</div>
 	</div>
 	<br>
+	<div class="container">
+		<div class="input-group">
+		<form action="" method="post">
+			<div class="form-outline">
+				<input type="search" id="form1" class="form-control" placeholder="Nome da cidade" name="pesquisa"/>
+			</div>
+			<button type="submit" class="btn btn-primary">Procurar</button>
+		</form> 	
+		<br><br>
+			<%
+			if (request.getParameter("pesquisa") != null && request.getParameter("pesquisa").length() > 0) {
+				String pesquisaDoAluno = request.getParameter("pesquisa");
 
-	<div class="input-group">
-		<div class="form-outline">
-			<input type="search" id="form1" class="form-control" placeholder="Placa do ônibus" /> 
+				PreparedStatement selectOnibus = conexao.prepareStatement("SELECT * FROM prefeitura WHERE nome_cidade LIKE ?");
+				selectOnibus.setString(1, "%" + pesquisaDoAluno + "%");
+				ResultSet rsOnibus = selectOnibus.executeQuery();
+			%>
+			<br><br><br> <table class = "table table-bordered">
+				
+					<%
+					while (rsOnibus.next()) {
+						String nomeCidade = rsOnibus.getString("nome_cidade");
+					%>
+					<tr> 
+						<td> 
+							<a href=""><%=nomeCidade%></a>
+						</td> 
+					</tr>
+					<%
+					}
+					%>
+			</table>
+			<%
+			}
+			%>
+
 		</div>
-		<button type="submit" class="btn btn-primary">Procurar</button>
 	</div>
-<br> <br>
+
+	<br>
+	<br>
+
 	<div id="form-cadastro-onibus">
 		<div class="d-flex justify-content-center">
 			<form method="post">
@@ -104,3 +137,10 @@
 	</div>
 	</div>
 </body>
+<script type="text/javascript">
+	document.getElementById('form-cadastro-onibus').style.display = 'none';
+	function Cadastrar() {
+		document.getElementById('tabela-onibus').style.display = 'none';
+	}
+</script>
+</html>

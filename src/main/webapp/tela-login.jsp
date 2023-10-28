@@ -24,59 +24,76 @@
 		<tr>
 			<td width="650">
 				<form id="form-login" method="post">
-					<label class="form-label" style="color: black;">EMAIL </label><br> 
-					<input class = "form-control" type="text" placeholder="***.***.***-**" name="login"> <br> <br>
-					<label class="form-label" style="color: black;">SENHA</label> <br> 
-					<input class = "form-control" type="password" placeholder="Sua senha" name="senha"> <br> <br>
-					<input class="btn btn-primary mb-3" type="submit" value="Entrar"> <br>
-					<br> <a href="cadastro-aluno.jsp">Não tem conta? Cadastra-se</a>
+					<label class="form-label" style="color: black;">EMAIL </label><br>
+					<input class="form-control" type="text"
+						placeholder="***.***.***-**" name="login"> <br> <br>
+					<label class="form-label" style="color: black;">SENHA</label> <br>
+					<input class="form-control" type="password" placeholder="Sua senha"
+						name="senha"> <br> <br> <input
+						class="btn btn-primary mb-3" type="submit" value="Entrar">
+					<br> <br> <a href="cadastro-aluno.jsp">Não tem conta?
+						Cadastra-se</a>
 				</form>
 			</td>
-			<td><img src="imagens/19197947.jpg" width="470" style = "margin-left: 20%"></td>
+			<td><img src="imagens/19197947.jpg" width="470"
+				style="margin-left: 20%"></td>
 		</tr>
 	</table>
 </body>
 
-				<%@ page import="java.sql.Connection"%>
-				<%@ page import="java.sql.DriverManager"%> 
-				<%@ page import="java.sql.SQLException"%>
-				<%@ page import="javacom.Aluno"%> 
-				<%@page import="java.sql.PreparedStatement"%>
+<%@ page import="java.sql.Connection"%>
+<%@ page import="java.sql.DriverManager"%>
+<%@ page import="java.sql.SQLException"%>
+<%@ page import="javacom.Aluno"%>
+<%@page import="java.sql.PreparedStatement"%>
 <%
-	Aluno aluno = Aluno.getInstance();
+String loginV = request.getParameter("login");
+String senhaV = request.getParameter("senha");
+
+if(loginV != null && senhaV != null && loginV.length() > 0 && senhaV.length() > 0){
+
+Aluno aluno = Aluno.getInstance();
 	aluno.setEmail(request.getParameter("login"));
 	aluno.setSenha(request.getParameter("senha"));
-	
-	Class.forName("com.mysql.jdbc.Driver");
-	 
-	try {
-		String url = "jdbc:mysql://localhost:3306/situp";
-		String usuario = "root";
-		String senha = "5988";
 
-		Connection conexao = DriverManager.getConnection(url, usuario, senha);
+Class.forName("com.mysql.jdbc.Driver");
 
-		PreparedStatement ps = conexao.prepareStatement("SELECT * FROM aluno WHERE email = ? AND senha = ?");
-		ps.setString(1, aluno.getEmail());
-		ps.setString(2, aluno.getSenha());
-		ps.execute();
-		
-		ResultSet rs = ps.executeQuery();
-		if(rs.next()){
-			aluno.setId_aluno(rs.getInt("id"));%>
-			  <script> window.location.href = "tela-aluno-gerenciar.jsp"; </script>
-		<%} else{ %>
-			<script>alert("USUARIO E/OU SENHA INCORRETOS") </script>
-		<%}
-		conexao.close();
-		ps.close();
-		rs.close();
-		
-	} catch (SQLException e) {
-		// Trate a exceção de SQLException aqui
-		e.printStackTrace();
-	}
-	;
+try {
+	String url = "jdbc:mysql://localhost:3306/situp";
+	String usuario = "root";
+	String senha = "5988";
+
+	Connection conexao = DriverManager.getConnection(url, usuario, senha);
+
+	PreparedStatement ps = conexao.prepareStatement("SELECT * FROM aluno WHERE email = ? AND senha = ?");
+	ps.setString(1, aluno.getEmail());
+	ps.setString(2, aluno.getSenha());
+	ps.execute();
+
+	ResultSet rs = ps.executeQuery();
+	if (rs.next()) {
+		aluno.setId_aluno(rs.getInt("id"));
+%>
+<script>
+	window.location.href = "tela-aluno-gerenciar.jsp";
+</script>
+<%
+} else {
+%>
+<script>
+	alert("USUARIO E/OU SENHA INCORRETOS")
+</script>
+<%
+}
+conexao.close();
+ps.close();
+rs.close();
+
+} catch (SQLException e) {
+// Trate a exceção de SQLException aqui
+e.printStackTrace();
+}
+}
 %>
 
 </html>
